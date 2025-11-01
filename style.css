@@ -604,26 +604,41 @@ button.back:hover {
 }
 /* ---------- FIXED VERSION ---------- */
 
-/* Default (Laptop/Desktop) — Keep 3 in a row */
-#stateList, #districtList {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-  justify-content: center;
-  align-content: center;
-  list-style: none;
-  margin: 60px auto;
-  padding: 0;
-  max-width: 1200px;
-}
-
-/* Mobile View — Show one per row */
+/* --- FIX: Center states & districts on mobile --- */
 @media (max-width: 768px) {
-  #stateList, #districtList {
-    grid-template-columns: 1fr; /* single column */
-    gap: 25px;
+  #stateList,
+  #districtList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  #stateList li,
+  #districtList li {
+    list-style: none;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin: 6px 0;
+    width: 85%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    text-align: center;
+  }
+
+  #stateList li:hover,
+  #districtList li:hover {
+    background: #1565c0;
+    color: #fff;
+    transform: translateY(-3px);
+    transition: all 0.3s ease;
   }
 }
+
 
 /* ---------- Responsive Graph ---------- */
 .chart-container {
