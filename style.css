@@ -545,3 +545,111 @@ button.back:hover {
   width: 70px;
   object-fit: contain;
 }
+/* ---------- FIX 1: STATES & DISTRICTS SINGLE ROW ---------- */
+#stateList, #districtList {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  justify-content: flex-start;
+  gap: 30px;
+  list-style: none;
+  margin: 60px auto;
+  padding: 10px;
+  scroll-behavior: smooth;
+}
+
+#stateList li, #districtList li {
+  flex: 0 0 auto;
+  width: 240px;
+}
+
+/* Hide scrollbar but allow scrolling */
+#stateList::-webkit-scrollbar,
+#districtList::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------- FIX 2: GRAPH RESPONSIVE ---------- */
+.chart-container {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 20px 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  overflow-x: auto;
+}
+
+.chart-container canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* ---------- FIX 3: REMOVE EXTRA SPACE ABOVE FOOTER ---------- */
+#getStartedBtn {
+  margin-top: 150px; /* reduced from 400px */
+}
+
+/* On mobile screens, reduce more */
+@media (max-width: 768px) {
+  #getStartedBtn {
+    margin-top: 100px;
+  }
+}
+/* ========== FIX NAVBAR RESPONSIVENESS & CENTER TITLE ========== */
+
+/* Keep navbar items in one line always */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap !important; /* prevent wrapping on mobile */
+  padding: 15px 25px;
+}
+
+/* Center “Our Voice, Our Rights” perfectly */
+.navbar h1 {
+  margin: 0 auto;
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+  flex: 1; /* keeps it centered between logo and nav links */
+}
+
+/* Keep menu horizontal even on phone */
+.navbar ul {
+  display: flex;
+  flex-direction: row !important;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Adjust for smaller screens */
+@media (max-width: 768px) {
+  .navbar {
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+
+  .navbar h1 {
+    font-size: 1.3rem;
+  }
+
+  .navbar ul {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar h1 {
+    font-size: 1.2rem;
+  }
+
+  .logo {
+    height: 55px;
+    width: 55px;
+  }
+}
+
