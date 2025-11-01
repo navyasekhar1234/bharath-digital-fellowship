@@ -604,8 +604,7 @@ button.back:hover {
 }
 /* ---------- FIXED VERSION ---------- */
 
-/* --- FIX: Center states & districts on mobile --- */
-/* --- FINAL MOBILE FIX: Center States & Districts Perfectly --- */
+/* --- FIX ONLY FOR MOBILE: Center States & Districts --- */
 @media (max-width: 768px) {
   #stateList,
   #districtList {
@@ -622,24 +621,12 @@ button.back:hover {
   #stateList li,
   #districtList li {
     list-style: none;
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 12px 18px;
-    margin: 8px auto;
-    width: 90%;
-    max-width: 350px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    margin: 6px 0;
     text-align: center;
-  }
-
-  #stateList li:hover,
-  #districtList li:hover {
-    background: #1565c0;
-    color: #fff;
-    transform: translateY(-3px);
-    transition: all 0.3s ease;
+    width: 85%;
   }
 }
+
 
 
 
