@@ -634,3 +634,52 @@ button.back:hover {
     width: 55px;
   }
 }
+/* -------- FIX EXTRA SPACE BELOW FOOTER BUTTON -------- */
+footer .get-started-btn {
+  margin-bottom: 0 !important;
+  padding-bottom: 8px;
+}
+
+/* -------- MAKE STATES & DISTRICTS IN SINGLE ROW -------- */
+.filters {
+  display: flex;
+  flex-wrap: nowrap !important;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.filters select {
+  width: auto !important;
+  min-width: 140px;
+  white-space: nowrap;
+}
+
+/* For smaller screens, make them fit better */
+@media (max-width: 768px) {
+  .filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  .filters select {
+    flex: 1;
+    min-width: 120px;
+  }
+}
+
+/* -------- MAKE GRAPH RESPONSIVE ON PHONE -------- */
+#chartContainer,
+canvas {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* For small phones - adjust chart height */
+@media (max-width: 480px) {
+  #chartContainer {
+    width: 100%;
+    height: 250px !important;
+  }
+}
+
