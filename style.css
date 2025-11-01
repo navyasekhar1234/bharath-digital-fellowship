@@ -578,46 +578,70 @@ button.back:hover {
     align-items: center;
   }
 }
-/* ===== FIX FOOTER BUTTON EXTRA SPACE ===== */
-footer {
-  margin-bottom: 0 !important;
-}
-
-.footer-right button {
-  margin-bottom: 0 !important;
-}
-/* ===== MAKE CHART FULL WIDTH ON MOBILE ===== */
-.chart-container {
-  width: 100% !important;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-@media (max-width: 600px) {
-  .chart-container {
-    width: 95% !important;
-    padding: 15px;
-  }
-
-  canvas {
-    width: 100% !important;
-    height: auto !important;
-  }
-}
-/* ===== MAKE STATES & DISTRICTS SINGLE SCROLL ROW ===== */
+/* ======== FIX: STATES & DISTRICTS SINGLE LINE ======== */
 #stateList,
 #districtList {
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  gap: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
   overflow-x: auto;
-  justify-content: flex-start;
-  scroll-behavior: smooth;
-  padding: 10px 20px;
+  gap: 20px;
+  padding: 20px;
+  list-style: none;
+  scrollbar-width: thin;
 }
 
 #stateList li,
 #districtList li {
   flex: 0 0 auto;
   width: 220px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  #stateList,
+  #districtList {
+    justify-content: flex-start;
+  }
+}
+
+/* ======== FIX: FOOTER BUTTON EXTRA SPACE ======== */
+footer {
+  margin-bottom: 0 !important;
+  padding-bottom: 20px !important;
+}
+
+.footer-right button {
+  margin-bottom: 0 !important;
+}
+
+/* ======== FIX: GRAPH RESPONSIVE ======== */
+.chart-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.chart-container canvas {
+  width: 100% !important;
+  height: auto !important;
+}
+
+/* ======== CENTER "OUR VOICE, OUR RIGHTS" IN NAVBAR ======== */
+.navbar h1 {
+  flex: 1;
+  text-align: center;
+  font-size: 1.6rem;
+  color: #fff;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: nowrap !important;
+  }
+  .navbar h1 {
+    font-size: 1.3rem;
+  }
 }
