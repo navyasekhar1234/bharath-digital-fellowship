@@ -618,7 +618,6 @@ button.back:hover {
     width: 100%;
   }
 
-  #stateList li,
   #districtList li {
     list-style: none;
     margin: 6px 0;
