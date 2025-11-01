@@ -691,42 +691,44 @@ button.back:hover {
     margin-top: 40px;
   }
 }
-
-/* --- FINAL MOBILE FIXES (perfect alignment + sticky navbar/footer) --- */
+/* --- MOBILE OPTIMIZATION FOR SMALLER NAVBAR & FOOTER --- */
 @media (max-width: 768px) {
-  /* Navbar stays visible at top */
+  /* Navbar smaller height + padding */
   .navbar {
+    height: 55px;
+    padding: 6px 15px;
+  }
+
+  .navbar a {
+    font-size: 14px;
+    margin: 0 8px;
+  }
+
+  /* Reduce hero heading spacing (so content starts earlier) */
+  .hero-heading {
+    margin-top: 80px;
+    font-size: 22px;
+  }
+
+  /* Footer smaller and stable */
+  footer {
+    height: 50px;
+    padding: 8px;
+    font-size: 14px;
+    text-align: center;
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
-    z-index: 999;
+    border-radius: 12px 12px 0 0;
+    z-index: 99;
+    background: #003366; /* same color as before */
+    color: #fff;
   }
 
-  /* Add space below navbar */
+  /* Add padding so footer doesn't hide content */
   body {
-    padding-top: 80px;
-  }
-
-  /* Footer normal (not full-screen), only sticks at bottom when content is short */
-  footer {
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    border-radius: 15px 15px 0 0;
-    z-index: 5;
-  }
-
-  /* Ensure page content pushes footer down naturally */
-  main, .main-content {
-    margin-bottom: 60px !important;
-  }
-
-  /* Center "Our Voice, Our Rights" heading */
-  .hero-heading {
-    text-align: center;
-    margin: 100px auto 20px;
-    width: 100%;
+    padding-bottom: 60px;
   }
 
 }
