@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MGNREGA Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container" id="homeSection">
+    <nav class="navbar">
+      <div class="logo-container">
+        <img src="images/Doc1.jpg" alt="MGNREGA Logo" class="logo" />
+        <h2>MGNREGA Viewer</h2>
+      </div>
+      <ul>
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#">States</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+
+    <h2 class="hero-heading">Our Voice, Our Rights — MGNREGA Viewer</h2>
+
+    <div class="features">
+      <div class="feature"><img src="https://img.icons8.com/color/64/000000/job.png" /><p>100 Days Employment</p></div>
+      <div class="feature"><img src="https://img.icons8.com/color/64/000000/family.png" /><p>Rural Livelihood Security</p></div>
+      <div class="feature"><img src="https://img.icons8.com/color/64/000000/women.png" /><p>Empowers Women</p></div>
+    </div>
+
+    <footer id="homeFooter">
+      <div class="footer-content">
+        <div class="footer-about">
+          <h2>About MGNREGA</h2>
+  <p><strong>MGNREGA (Mahatma Gandhi National Rural Employment Guarantee Act)</strong>, <br>launched in <strong>2005</strong>, provides <strong>100 days of wage employment</strong> to rural households.</p>
+  <p>It enhances livelihood security and creates durable rural assets.</p>
+  <p>The scheme promotes women’s participation and ensures equal wages.</p>
+  <p>It helps reduce poverty and migration in rural areas.</p>
+  <p>MGNREGA stands as a pillar of inclusive rural development in India.</p>
+        </div>
+        <div class="footer-right">
+          <button id="getStartedBtn">Get Started</button>
+        </div>
+      </div>
+      <p class="footer-note">© 2025 MGNREGA Viewer | Designed for Rural Transparency</p>
+    </footer>
+  </div>
+
+  <!-- STATE, DISTRICT, CATEGORY, and STATS sections -->
+  <div id="stateSection" style="display:none;">
+    <h2>Select a State</h2>
+    <ul id="stateList"></ul>
+    <button id="backHomeBtn" class="back">Back</button>
+  </div>
+
+  <div id="districtSection" style="display:none;">
+    <h2>Andhra Pradesh Districts</h2>
+    <ul id="districtList"></ul>
+    <button id="backStateBtn" class="back">Back</button>
+  </div>
+
+  <div id="categorySection" style="display:none;">
+    <h2 id="categoryTitle"></h2>
+    <div class="category-container">
+      <div class="category-card" data-type="num_projects">Projects</div>
+      <div class="category-card" data-type="total_funds">Funds</div>
+      <div class="category-card" data-type="num_people_employed">People Employed</div>
+      <div class="category-card" data-type="average_wage">Average Wage</div>
+      <div class="category-card" data-type="total_work_days">Total Work Days</div>
+      <div class="category-card" data-type="households_covered">Households Covered</div>
+      <div class="category-card" data-type="employment_rate">Employment Rate</div>
+    </div>
+    <button id="backDistrictBtn" class="back">Back</button>
+  </div>
+
+  <div id="statsSection" style="display:none;">
+    <h2 id="statsTitle"></h2>
+    <div class="stats-container">
+      <div class="table-container">
+        <table id="statsTable" border="1">
+          <thead><tr><th>Year</th><th>Value</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="chart-container"><canvas id="statsChart"></canvas></div>
+    </div>
+    <button id="backCategoryBtn" class="back">Back</button>
+  </div>
+
+  <script>
+    const getStartedBtn = document.getElementById("getStartedBtn");
+    const homeSection = document.getElementById("homeSection");
+    const homeFooter = document.getElementById("homeFooter");
+    const stateSection = document.getElementById("stateSection");
+    const districtSection = document.getElementById("districtSection");
+    const categorySection = document.getElementById("categorySection");
+    const statsSection = document.getElementById("statsSection");
+
+    const backHomeBtn = document.getElementById("backHomeBtn");
+    const backStateBtn = document.getElementById("backStateBtn");
+    const backDistrictBtn = document.getElementById("backDistrictBtn");
+    const backCategoryBtn = document.getElementById("backCategoryBtn");
+
+    let selectedDistrictId = null;
+    let selectedDistrictName = "";
+    let chart;
+
+    // 🏠 HOME → STATES
+    getStartedBtn.onclick = async () => {
+      homeSection.style.display = "none";
+      homeFooter.style.display = "none";
+      stateSection.style.display = "block";
+      loadStates();
+    };
+
+    // 🔙 BACK BUTTONS
+    backHomeBtn.onclick = () => {
+      stateSection.style.display = "none";
+      homeSection.style.display = "block";
+      homeFooter.style.display = "block";
+    };
+    backStateBtn.onclick = () => {
+      districtSection.style.display = "none";
+      stateSection.style.display = "block";
+    };
+    backDistrictBtn.onclick = () => {
+      categorySection.style.display = "none";
+      districtSection.style.display = "block";
+    };
+    backCategoryBtn.onclick = () => {
+      statsSection.style.display = "none";
+      categorySection.style.display = "block";
+    };
+
+    // 🌍 LOAD STATES
+    async function loadStates() {
+      const res = await fetch("http://localhost:3000/states");
+      const states = await res.json();
+      const list = document.getElementById("stateList");
+      list.innerHTML = "";
+      states.forEach(state => {
+        const li = document.createElement("li");
+        li.textContent = state.name;
+        li.onclick = () => {
+          if (state.name === "Andhra Pradesh") loadDistricts(state.id);
+          else alert("Currently, only Andhra Pradesh data is available!");
+        };
+        list.appendChild(li);
+      });
+    }
+
+    // 🏙️ LOAD DISTRICTS
+    async function loadDistricts(state_id) {
+      const res = await fetch(`http://localhost:3000/districts?state_id=${state_id}`);
+      const districts = await res.json();
+      const list = document.getElementById("districtList");
+      list.innerHTML = "";
+      districts.forEach(d => {
+        const li = document.createElement("li");
+        li.textContent = d.name;
+        li.onclick = () => {
+          selectedDistrictId = d.id;
+          selectedDistrictName = d.name;
+          showCategorySelection();
+        };
+        list.appendChild(li);
+      });
+      stateSection.style.display = "none";
+      districtSection.style.display = "block";
+    }
+
+    // 📂 SHOW CATEGORIES
+    function showCategorySelection() {
+      districtSection.style.display = "none";
+      categorySection.style.display = "block";
+      document.getElementById("categoryTitle").textContent =
+        `Select Data Type for ${selectedDistrictName}`;
+    }
+
+    // 🧩 CATEGORY CLICK EVENTS
+    document.querySelectorAll(".category-card").forEach(card => {
+      card.onclick = () => {
+        const type = card.getAttribute("data-type");
+        loadCategoryData(type);
+      };
+    });
+
+    // 📊 LOAD DATA FROM BACKEND
+    async function loadCategoryData(type) {
+      const res = await fetch(`http://localhost:3000/stats?district_id=${selectedDistrictId}`);
+      const data = await res.json();
+
+      const labelMap = {
+        num_projects: "Number of Projects",
+        total_funds: "Total Funds (₹)",
+        num_people_employed: "People Employed",
+        average_wage: "Average Wage (₹)",
+        total_work_days: "Total Work Days",
+        households_covered: "Households Covered",
+        employment_rate: "Employment Rate (%)"
+      };
+
+      const label = labelMap[type] || "Value";
+      const years = data.map(r => r.year);
+      const values = data.map(r => r[type]);
+
+      renderStats(years, values, label);
+      categorySection.style.display = "none";
+      statsSection.style.display = "block";
+      document.getElementById("statsTitle").textContent = `${label} - ${selectedDistrictName}`;
+    }
+
+    // 📈 RENDER TABLE + CHART
+    function renderStats(years, values, label) {
+      const tbody = document.querySelector("#statsTable tbody");
+      tbody.innerHTML = "";
+      years.forEach((y, i) => {
+        const val = values[i] ?? "N/A";
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${y}</td><td>${val}</td>`;
+        tbody.appendChild(tr);
+      });
+
+      const ctx = document.getElementById("statsChart").getContext("2d");
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: years,
+          datasets: [{
+            label,
+            data: values.map(v => v || 0),
+            backgroundColor: "rgba(54, 162, 235, 0.6)"
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true, title: { display: true, text: label } },
+            x: { title: { display: true, text: "Year" } }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
