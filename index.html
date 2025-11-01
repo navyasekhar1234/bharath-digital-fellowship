@@ -267,6 +267,13 @@
         },
       });
     }
+    document.getElementById("getStartedBtn").addEventListener("click", () => {
+  const stateSection = document.getElementById("stateSection");
+  if (stateSection) {
+    stateSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+});
   </script>
 </body>
 </html>
+
