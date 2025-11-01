@@ -718,7 +718,7 @@ button.back:hover {
   }
 
   /* Ensure page content pushes footer down naturally */
-  main, .main-content, .features, #stateList, #districtList {
+  main, .main-content {
     margin-bottom: 60px !important;
   }
 
@@ -729,22 +729,4 @@ button.back:hover {
     width: 100%;
   }
 
-  /* Center features vertically and horizontally */
-  .features {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 25px;
-  }
-
-  .feature {
-    width: 90%;
-    max-width: 320px;
-  }
-
-  /* Center districts and states */
-  #stateList, #districtList {
-    justify-content: center;
-  }
 }
