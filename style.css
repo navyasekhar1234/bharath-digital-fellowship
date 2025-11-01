@@ -578,108 +578,46 @@ button.back:hover {
     align-items: center;
   }
 }
-/* ========== FIX NAVBAR RESPONSIVENESS & CENTER TITLE ========== */
-
-/* Keep navbar items in one line always */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: nowrap !important; /* prevent wrapping on mobile */
-  padding: 15px 25px;
-}
-
-/* Center “Our Voice, Our Rights” perfectly */
-.navbar h1 {
-  margin: 0 auto;
-  color: #fff;
-  font-size: 1.6rem;
-  font-weight: 700;
-  text-align: center;
-  flex: 1; /* keeps it centered between logo and nav links */
-}
-
-/* Keep menu horizontal even on phone */
-.navbar ul {
-  display: flex;
-  flex-direction: row !important;
-  gap: 20px;
-  margin: 0;
-  padding: 0;
-}
-
-/* Adjust for smaller screens */
-@media (max-width: 768px) {
-  .navbar {
-    justify-content: space-between;
-    padding: 10px 20px;
-  }
-
-  .navbar h1 {
-    font-size: 1.3rem;
-  }
-
-  .navbar ul {
-    gap: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .navbar h1 {
-    font-size: 1.2rem;
-  }
-
-  .logo {
-    height: 55px;
-    width: 55px;
-  }
-}
-/* -------- FIX EXTRA SPACE BELOW FOOTER BUTTON -------- */
-footer .get-started-btn {
+/* ===== FIX FOOTER BUTTON EXTRA SPACE ===== */
+footer {
   margin-bottom: 0 !important;
-  padding-bottom: 8px;
 }
 
-/* -------- MAKE STATES & DISTRICTS IN SINGLE ROW -------- */
-.filters {
-  display: flex;
+.footer-right button {
+  margin-bottom: 0 !important;
+}
+/* ===== MAKE CHART FULL WIDTH ON MOBILE ===== */
+.chart-container {
+  width: 100% !important;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .chart-container {
+    width: 95% !important;
+    padding: 15px;
+  }
+
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+/* ===== MAKE STATES & DISTRICTS SINGLE SCROLL ROW ===== */
+#stateList,
+#districtList {
+  display: flex !important;
   flex-wrap: nowrap !important;
-  gap: 10px;
-  justify-content: center;
-  align-items: center;
+  gap: 25px;
+  overflow-x: auto;
+  justify-content: flex-start;
+  scroll-behavior: smooth;
+  padding: 10px 20px;
 }
 
-.filters select {
-  width: auto !important;
-  min-width: 140px;
-  white-space: nowrap;
+#stateList li,
+#districtList li {
+  flex: 0 0 auto;
+  width: 220px;
 }
-
-/* For smaller screens, make them fit better */
-@media (max-width: 768px) {
-  .filters {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-  }
-
-  .filters select {
-    flex: 1;
-    min-width: 120px;
-  }
-}
-
-/* -------- MAKE GRAPH RESPONSIVE ON PHONE -------- */
-#chartContainer,
-canvas {
-  max-width: 100% !important;
-  height: auto !important;
-}
-
-/* For small phones - adjust chart height */
-@media (max-width: 480px) {
-  #chartContainer {
-    width: 100%;
-    height: 250px !important;
-  }
-}
-
