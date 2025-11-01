@@ -692,9 +692,9 @@ button.back:hover {
   }
 }
 
-/* --- MOBILE FIXES (home page alignment + fixed navbar/footer) --- */
+/* --- FINAL MOBILE FIXES (perfect alignment + sticky navbar/footer) --- */
 @media (max-width: 768px) {
-  /* Make navbar fixed at top */
+  /* Navbar stays visible at top */
   .navbar {
     position: fixed;
     top: 0;
@@ -703,43 +703,48 @@ button.back:hover {
     z-index: 999;
   }
 
-  /* Add top padding so content doesn’t hide under navbar */
+  /* Add space below navbar */
   body {
-    padding-top: 90px;
+    padding-top: 80px;
   }
 
-  /* Fix footer at bottom */
+  /* Footer normal (not full-screen), only sticks at bottom when content is short */
   footer {
-    position: fixed;
+    position: relative;
     bottom: 0;
-    left: 0;
     width: 100%;
-    border-radius: 0;
-    z-index: 999;
+    border-radius: 15px 15px 0 0;
+    z-index: 5;
   }
 
-  /* Prevent content from overlapping footer */
+  /* Ensure page content pushes footer down naturally */
   main, .main-content, .features, #stateList, #districtList {
-    margin-bottom: 150px !important;
+    margin-bottom: 60px !important;
   }
 
-  /* Center the hero heading */
+  /* Center "Our Voice, Our Rights" heading */
   .hero-heading {
     text-align: center;
-    margin: 120px auto 30px;
+    margin: 100px auto 20px;
     width: 100%;
   }
 
-  /* Center feature cards */
+  /* Center features vertically and horizontally */
   .features {
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 25px;
   }
 
   .feature {
-    width: 85%;
+    width: 90%;
     max-width: 320px;
+  }
+
+  /* Center districts and states */
+  #stateList, #districtList {
+    justify-content: center;
   }
 }
