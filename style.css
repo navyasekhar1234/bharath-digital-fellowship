@@ -691,44 +691,75 @@ button.back:hover {
     margin-top: 40px;
   }
 }
-/* --- MOBILE OPTIMIZATION FOR SMALLER NAVBAR & FOOTER --- */
+/* ---------- NAVBAR ---------- */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: #0d6efd;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #0d6efd;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+  font-size: 15px;
+  z-index: 1000;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+/* ---------- BODY SPACING ---------- */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background-color: #e3f2fd;
+  padding-top: 60px; /* space for navbar */
+  padding-bottom: 60px; /* space for footer */
+  overflow-x: hidden;
+}
+
+/* ---------- MOBILE VIEW ---------- */
 @media (max-width: 768px) {
-  /* Navbar smaller height + padding */
   .navbar {
-    height: 55px;
-    padding: 6px 15px;
+    height: 50px;
+    padding: 0 12px;
   }
 
   .navbar a {
     font-size: 14px;
-    margin: 0 8px;
+    margin: 0 6px;
   }
 
-  /* Reduce hero heading spacing (so content starts earlier) */
-  .hero-heading {
-    margin-top: 80px;
-    font-size: 22px;
-  }
-
-  /* Footer smaller and stable */
   footer {
-    height: 50px;
     padding: 8px;
-    font-size: 14px;
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    border-radius: 12px 12px 0 0;
-    z-index: 99;
-    background: #003366; /* same color as before */
-    color: #fff;
+    font-size: 13px;
   }
 
-  /* Add padding so footer doesn't hide content */
   body {
-    padding-bottom: 60px;
+    padding-top: 50px;
+    padding-bottom: 55px;
   }
-
 }
