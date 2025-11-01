@@ -25,20 +25,20 @@
     <h2 class="hero-heading">Our Voice, Our Rights — MGNREGA Viewer</h2>
 
     <div class="features">
-      <div class="feature"><img src="https://img.icons8.com/color/64/000000/job.png" /><p>100 Days Employment</p></div>
-      <div class="feature"><img src="https://img.icons8.com/color/64/000000/family.png" /><p>Rural Livelihood Security</p></div>
-      <div class="feature"><img src="https://img.icons8.com/color/64/000000/women.png" /><p>Empowers Women</p></div>
+      <div class="feature"><img src="https://img.icons8.com/color/64/000000/job.png"/><p>100 Days Employment</p></div>
+      <div class="feature"><img src="https://img.icons8.com/color/64/000000/family.png"/><p>Rural Livelihood Security</p></div>
+      <div class="feature"><img src="https://img.icons8.com/color/64/000000/women.png"/><p>Empowers Women</p></div>
     </div>
 
     <footer id="homeFooter">
       <div class="footer-content">
         <div class="footer-about">
           <h2>About MGNREGA</h2>
-  <p><strong>MGNREGA (Mahatma Gandhi National Rural Employment Guarantee Act)</strong>, <br>launched in <strong>2005</strong>, provides <strong>100 days of wage employment</strong> to rural households.</p>
-  <p>It enhances livelihood security and creates durable rural assets.</p>
-  <p>The scheme promotes women’s participation and ensures equal wages.</p>
-  <p>It helps reduce poverty and migration in rural areas.</p>
-  <p>MGNREGA stands as a pillar of inclusive rural development in India.</p>
+          <p><strong>MGNREGA (Mahatma Gandhi National Rural Employment Guarantee Act)</strong>, launched in <strong>2005</strong>, provides <strong>100 days of wage employment</strong> to rural households.</p>
+          <p>It enhances livelihood security and creates durable rural assets.</p>
+          <p>The scheme promotes women’s participation and ensures equal wages.</p>
+          <p>It helps reduce poverty and migration in rural areas.</p>
+          <p>MGNREGA stands as a pillar of inclusive rural development in India.</p>
         </div>
         <div class="footer-right">
           <button id="getStartedBtn">Get Started</button>
@@ -90,6 +90,9 @@
   </div>
 
   <script>
+    // ✅ Correct backend URL on Render
+    const API_BASE = "https://bharath-digital-fellowship.onrender.com";
+
     const getStartedBtn = document.getElementById("getStartedBtn");
     const homeSection = document.getElementById("homeSection");
     const homeFooter = document.getElementById("homeFooter");
@@ -112,7 +115,7 @@
       homeSection.style.display = "none";
       homeFooter.style.display = "none";
       stateSection.style.display = "block";
-      loadStates();
+      await loadStates();
     };
 
     // 🔙 BACK BUTTONS
@@ -136,39 +139,51 @@
 
     // 🌍 LOAD STATES
     async function loadStates() {
-      const res = await fetch("http://localhost:3000/states");
-      const states = await res.json();
-      const list = document.getElementById("stateList");
-      list.innerHTML = "";
-      states.forEach(state => {
-        const li = document.createElement("li");
-        li.textContent = state.name;
-        li.onclick = () => {
-          if (state.name === "Andhra Pradesh") loadDistricts(state.id);
-          else alert("Currently, only Andhra Pradesh data is available!");
-        };
-        list.appendChild(li);
-      });
+      try {
+        const res = await fetch(`${API_BASE}/states`);
+        if (!res.ok) throw new Error("Server not responding");
+        const states = await res.json();
+        const list = document.getElementById("stateList");
+        list.innerHTML = "";
+        states.forEach((state) => {
+          const li = document.createElement("li");
+          li.textContent = state.name;
+          li.onclick = () => {
+            if (state.name === "Andhra Pradesh") loadDistricts(state.id);
+            else alert("Currently, only Andhra Pradesh data is available!");
+          };
+          list.appendChild(li);
+        });
+      } catch (err) {
+        console.error("⚠️ Unable to load states:", err);
+        alert("⚠️ Unable to load states. Please try again later.");
+      }
     }
 
     // 🏙️ LOAD DISTRICTS
     async function loadDistricts(state_id) {
-      const res = await fetch(`http://localhost:3000/districts?state_id=${state_id}`);
-      const districts = await res.json();
-      const list = document.getElementById("districtList");
-      list.innerHTML = "";
-      districts.forEach(d => {
-        const li = document.createElement("li");
-        li.textContent = d.name;
-        li.onclick = () => {
-          selectedDistrictId = d.id;
-          selectedDistrictName = d.name;
-          showCategorySelection();
-        };
-        list.appendChild(li);
-      });
-      stateSection.style.display = "none";
-      districtSection.style.display = "block";
+      try {
+        const res = await fetch(`${API_BASE}/districts?state_id=${state_id}`);
+        if (!res.ok) throw new Error("Error fetching districts");
+        const districts = await res.json();
+        const list = document.getElementById("districtList");
+        list.innerHTML = "";
+        districts.forEach((d) => {
+          const li = document.createElement("li");
+          li.textContent = d.name;
+          li.onclick = () => {
+            selectedDistrictId = d.id;
+            selectedDistrictName = d.name;
+            showCategorySelection();
+          };
+          list.appendChild(li);
+        });
+        stateSection.style.display = "none";
+        districtSection.style.display = "block";
+      } catch (err) {
+        console.error("⚠️ Unable to load districts:", err);
+        alert("⚠️ Unable to load districts. Please try again later.");
+      }
     }
 
     // 📂 SHOW CATEGORIES
@@ -180,7 +195,7 @@
     }
 
     // 🧩 CATEGORY CLICK EVENTS
-    document.querySelectorAll(".category-card").forEach(card => {
+    document.querySelectorAll(".category-card").forEach((card) => {
       card.onclick = () => {
         const type = card.getAttribute("data-type");
         loadCategoryData(type);
@@ -189,27 +204,34 @@
 
     // 📊 LOAD DATA FROM BACKEND
     async function loadCategoryData(type) {
-      const res = await fetch(`http://localhost:3000/stats?district_id=${selectedDistrictId}`);
-      const data = await res.json();
+      try {
+        const res = await fetch(`${API_BASE}/stats?district_id=${selectedDistrictId}`);
+        if (!res.ok) throw new Error("Error loading stats");
+        const data = await res.json();
 
-      const labelMap = {
-        num_projects: "Number of Projects",
-        total_funds: "Total Funds (₹)",
-        num_people_employed: "People Employed",
-        average_wage: "Average Wage (₹)",
-        total_work_days: "Total Work Days",
-        households_covered: "Households Covered",
-        employment_rate: "Employment Rate (%)"
-      };
+        const labelMap = {
+          num_projects: "Number of Projects",
+          total_funds: "Total Funds (₹)",
+          num_people_employed: "People Employed",
+          average_wage: "Average Wage (₹)",
+          total_work_days: "Total Work Days",
+          households_covered: "Households Covered",
+          employment_rate: "Employment Rate (%)",
+        };
 
-      const label = labelMap[type] || "Value";
-      const years = data.map(r => r.year);
-      const values = data.map(r => r[type]);
+        const label = labelMap[type] || "Value";
+        const years = data.map((r) => r.year);
+        const values = data.map((r) => r[type]);
 
-      renderStats(years, values, label);
-      categorySection.style.display = "none";
-      statsSection.style.display = "block";
-      document.getElementById("statsTitle").textContent = `${label} - ${selectedDistrictName}`;
+        renderStats(years, values, label);
+        categorySection.style.display = "none";
+        statsSection.style.display = "block";
+        document.getElementById("statsTitle").textContent =
+          `${label} - ${selectedDistrictName}`;
+      } catch (err) {
+        console.error("⚠️ Unable to load statistics:", err);
+        alert("⚠️ Unable to load statistics. Try again later.");
+      }
     }
 
     // 📈 RENDER TABLE + CHART
@@ -231,17 +253,18 @@
           labels: years,
           datasets: [{
             label,
-            data: values.map(v => v || 0),
-            backgroundColor: "rgba(54, 162, 235, 0.6)"
-          }]
+            data: values.map((v) => v || 0),
+            backgroundColor: "rgba(54, 162, 235, 0.6)",
+          }],
         },
         options: {
           responsive: true,
+          plugins: { legend: { display: true, position: "top" } },
           scales: {
             y: { beginAtZero: true, title: { display: true, text: label } },
-            x: { title: { display: true, text: "Year" } }
-          }
-        }
+            x: { title: { display: true, text: "Year" } },
+          },
+        },
       });
     }
   </script>
