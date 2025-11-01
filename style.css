@@ -692,3 +692,54 @@ button.back:hover {
   }
 }
 
+/* --- MOBILE FIXES (home page alignment + fixed navbar/footer) --- */
+@media (max-width: 768px) {
+  /* Make navbar fixed at top */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+  }
+
+  /* Add top padding so content doesn’t hide under navbar */
+  body {
+    padding-top: 90px;
+  }
+
+  /* Fix footer at bottom */
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 0;
+    z-index: 999;
+  }
+
+  /* Prevent content from overlapping footer */
+  main, .main-content, .features, #stateList, #districtList {
+    margin-bottom: 150px !important;
+  }
+
+  /* Center the hero heading */
+  .hero-heading {
+    text-align: center;
+    margin: 120px auto 30px;
+    width: 100%;
+  }
+
+  /* Center feature cards */
+  .features {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .feature {
+    width: 85%;
+    max-width: 320px;
+  }
+}
